@@ -34,6 +34,7 @@ The `setup` function accepts a table with the following options:
 
 - `custom_repo_url` (string, optional): A custom repository URL to use as a prefix. If not provided, the plugin will try to get it from the git remote configuration.
 - `notification_plugin` (string, optional): The notification plugin to use. Can be `"vim.notify"` (default) or `"mini.notify"`.
+- `notification_timeout` (number, optional): Timeout in milliseconds for notifications. Defaults to `10000` (10 seconds).
 
 Example:
 
@@ -41,6 +42,7 @@ Example:
 require("copycat").setup({
   custom_repo_url = "https://my-custom-git-host.com/my-repo",
   notification_plugin = "mini.notify",
+  notification_timeout = 5000, -- 5 seconds
 })
 ```
 
