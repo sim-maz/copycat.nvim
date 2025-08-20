@@ -18,7 +18,7 @@ A Neovim plugin to copy file paths with extra features.
 
 ```lua
 {
-  "your-username/copycat.nvim",
+  "sim-maz/copycat.nvim",
   config = function()
     require("copycat").setup({
       -- your configuration comes here
