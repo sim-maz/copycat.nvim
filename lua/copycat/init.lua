@@ -23,7 +23,7 @@ local function notify(message, level)
     local success, mini_notify = pcall(require, "mini.notify")
     if success and mini_notify then
       local level_key = get_level_key(level)
-      mini_notify.add(message, level_key, opts)
+      mini_notify.add(message, level_key)
       return
     end
   end
