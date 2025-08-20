@@ -4,6 +4,7 @@ local M = {}
 local config = {
   custom_repo_url = nil,
   notification_plugin = "vim.notify", -- "mini.notify" or "vim.notify"
+  notification_timeout = 10000,
 }
 
 local function get_level_key(level_value)
@@ -17,15 +18,16 @@ end
 
 local function notify(message, level)
   level = level or vim.log.levels.INFO
+  local opts = { timeout = config.notification_timeout }
   if config.notification_plugin == "mini.notify" then
     local success, mini_notify = pcall(require, "mini.notify")
     if success and mini_notify then
       local level_key = get_level_key(level)
-      mini_notify.add(message, level_key)
+      mini_notify.add(message, level_key, opts)
       return
     end
   end
-  vim.notify(message, level)
+  vim.notify(message, level, opts)
 end
 
 local function copy_to_clipboard(text)
