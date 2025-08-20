@@ -6,12 +6,22 @@ local config = {
   notification_plugin = "vim.notify", -- "mini.notify" or "vim.notify"
 }
 
+local function get_level_key(level_value)
+    for key, value in pairs(vim.log.levels) do
+        if value == level_value then
+            return key
+        end
+    end
+    return "INFO" -- fallback
+end
+
 local function notify(message, level)
   level = level or vim.log.levels.INFO
   if config.notification_plugin == "mini.notify" then
     local success, mini_notify = pcall(require, "mini.notify")
     if success and mini_notify then
-      mini_notify.add(message, level)
+      local level_key = get_level_key(level)
+      mini_notify.add(message, level_key)
       return
     end
   end
@@ -44,8 +54,12 @@ local function get_git_repo_url()
   end
 
   if remote:match("^git@") then
-    remote = remote:gsub(":", "/"):gsub("git@", "https://")
+    local host, path = remote:match("^git@([^:]+):(.+)")
+    if host and path then
+      remote = "https://" .. host .. "/" .. path
+    end
   end
+
   if remote:match("%.git$") then
     remote = remote:gsub("%.git$", "")
   end
