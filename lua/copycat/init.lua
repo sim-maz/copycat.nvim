@@ -23,7 +23,12 @@ local function notify(message, level)
     local success, mini_notify = pcall(require, "mini.notify")
     if success and mini_notify then
       local level_key = get_level_key(level)
-      mini_notify.add(message, level_key)
+      local id = mini_notify.add(message, level_key)
+      if config.notification_timeout and config.notification_timeout > 0 then
+        vim.defer_fn(function()
+          mini_notify.remove(id)
+        end, config.notification_timeout)
+      end
       return
     end
   end
